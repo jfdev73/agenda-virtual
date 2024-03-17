@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Agenda Virtual</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+	integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="container">
+	<h2 class="mt-4">Mis Contactos</h2>
+
+	<div class="alert alert-success alert-dismissible mt-3"
+		th:if="${msjExito ne null}">
+
+		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		[[${msjExito}]]
+	</div>
+
+	<div class="text-end">
+		<a href="/nuevo" class="btn btn-primary"><i class="fa fa-plus"></i>
+			Registrar Contacto</a>
+	</div>
+
+	<form action="" class="mt-2" method="get" autocomplete="off">
+	
+			<div class="row">
+				<div class="col-lg-3 col-md-4">
+					<div class="input-group">
+						<input type="text" class="form-control"
+							placeholder="Buscar por nombre" name="busqueda" th:value="${param.busqueda}">
+						<button class="btn btn-outline-secondary" type="submit"
+							id="button-addon2">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+	</form>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nombre</th>
+				<th>Fecha de Nacimiento</th>
+				<th>Celular</th>
+				<th>Email</th>
+				<th>Fecha de Registro</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="contacto: ${contactoPage}" th:object="${contacto}">
+				<td th:text="*{id}"></td>
+				<td th:text="*{nombre}"></td>
+				<td th:text="*{#temporals.format(fechaNacimiento, 'dd/MM/YYYY')}"></td>
+				<td th:text="*{celular}"></td>
+				<td th:text="*{email}"></td>
+				<td
+					th:text="*{#temporals.format(fechaRegistro, 'dd/MM/YYYY hh:mm a')}"></td>
+				<td>
+					<div class="btn-group btn-group-sm">
+
+						<a th:href="@{/editar/} + *{id}" class="btn btn-primary me-3"><i
+							class="fa fa-edit"></i></a>
+
+
+
+						<!-- <button type="button" class="btn btn-danger" data-toggle="modal"
+								data-target="#exampleModal">
+								<i class="fa fa-trash"></i>
+							</button> -->
+						<!-- Button trigger modal
+						
+		th:attr="data-target='#exampleModalCenterDesc'+${product.id}">						 -->
+						<button type="button" class="btn btn-danger"
+							data-bs-toggle="modal"
+							th:attr=" data-bs-target='#exampleModal'+*{id}">
+							<i class="fa fa-trash"></i>
+						</button>
+
+
+
+						<!-- Modal Eliminar -->
+						<div class="modal fade" th:id="*{'exampleModal'+{id}}"
+							tabindex="-1" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Seguro
+											que desea eliminar el siguiente contacto</h1>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<p th:text="*{nombre}"></p>
+
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">Cancelar</button>
+										<form th:action="@{/eliminar/} + *{id}" method="post">
+
+											<button type="submit" class="btn btn-primary">Confirmar</button>
+										</form>
+									</div>
+
+									<!-- <button type="button" class="btn btn-primary">Save
+											changes</button> -->
+								</div>
+							</div>
+						</div>
+						<!-- End Modal Eliminar -->
+					</div>
+
+
+
+
+
+
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<div sd:pagination-summary=""></div>
+		</div>
+		<div class="col-sm-6">
+			<nav class="pull-right">
+				<ul class="pagination" sd:pagination="full">
+
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<a href="/" class="btn btn-secondary me-3">Regresar</a>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

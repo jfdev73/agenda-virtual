@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Nuevo Contacto</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+	crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://unpkg.com/gijgo@1.9.14/js/messages/messages.es-es.js" type="text/javascript"></script>
+
+<style type="text/css">
+.invalid-feedback {
+	display: block
+}
+
+.invalid-tooltip {
+	display: block;
+	top: auto;
+}
+</style>
+</head>
+<body class="container">
+	<h3 th:text="*{id == null ? 'Crear Contacto' : 'Actualizar Contacto'}" class="mt-4"></h3>
+
+<div class="row justify-content-center">
+<div class="col-md-6 col-lg-5">
+	<form action="/save" th:object="${contacto}" method="post"
+		class=" row g-4 needs-validation" novalidate>
+
+		<div class="mb-2">
+			<label for="nombre" class="form-label">Nombre: </label> <input
+				type="text" id="nombre" placeholder="nombre" class="form-control"
+				th:field="*{nombre}" th:errorClass="is-invalid">
+
+			<div class="invalid-feedback" role="alert" th:errors="*{nombre}"></div>
+		</div>
+
+		<div class="mb-2">
+			<label for="fechaNacimiento" class="form-label">Fecha de
+				Nacimiento: </label>
+			 <!-- <input type="date" id="fechaNacimiento"
+				placeholder="fecha de nacimiento" class="form-control"
+				th:value="*{fechaNacimientoFormat}" th:errorClass="is-invalid" name="fechaNacimientoFormat" >   -->
+			 <input id="datepicker"  th:field="*{fechaNacimientoFormat}" class="form-control"/> 
+
+			<div class="invalid-feedback" role="alert"
+				th:errors="*{fechaNacimiento}"></div>
+		</div>
+
+		<div class="mb-2">
+			<label for="celular" class="form-label">Celular: </label> <input
+				type="tel" id="celular" placeholder="celular" class="form-control"
+				th:field="*{celular}" th:errorClass="is-invalid">
+			<div class="invalid-feedback" role="alert" th:errors="*{celular}"></div>
+		</div>
+
+
+		<div class="mb-2">
+			<label for="email" class="form-label">Email: </label> <input
+				type="email" id="email" placeholder="Email" class="form-control"
+				th:field="*{email}" th:errorClass="is-invalid">
+			<div class="invalid-feedback" role="alert" th:errors="*{email}"></div>
+		</div>
+
+		<div class="mt-5 text-end">
+			<a href="/" class="btn btn-secondary me-5">Cancelar</a>
+			<!-- <input type="submit"
+				th:value="*{id == null ? 'Crear Contacto' : 'Actualizar Contacto'}"
+				class="btn btn-primary "> -->
+
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#editarModal"
+				th:text="*{id == null ? 'Crear Contacto' : 'Actualizar Contacto'}">Launch
+				demo modal</button>
+
+			<!-- Modal Editar -->
+			<div class="modal fade" id="editarModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel"
+								th:text="*{id == null ? 'Confirmar agregar' : 'Confirmar Actualizar'}">Modal
+								title</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body"
+							th:text="*{id == null ? 'Esta seguro de crear este contacto?' : 'Esta seguro de actualizar este contacto ?'}"></div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancelar</button>
+							<input type="submit" class="btn btn-primary"
+								th:value="*{id == null ? 'Crear Contacto' : 'Actualizar Contacto'}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Modal Editar -->
+
+		</div>
+		<input type="hidden" th:field="*{id}">
+	</form>
+
+
+</div>
+</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+	<script>
+     $('#datepicker').datepicker({ 
+    	 format: 'dd-mm-yyyy',
+    	 locale: 'es-es',
+    	 }); 
+ </script>
+
+
+
+</body>
+</html>
